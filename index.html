@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5">
+<title>Login - BK Digital</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0f172a;
+  --blue:#2563eb;
+  --blue-hover:#1d4ed8;
+  --ink:#0f172a;
+  --muted:#64748b;
+  --line:#e2e8f0;
+  --green:#059669;
+  --green-bg:#ecfdf5;
+  --red:#dc2626;
+  --red-bg:#fef2f2;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+  margin:0;
+  min-height:100vh;
+  min-height:100dvh;
+  display:grid;
+  place-items:center;
+  padding:18px;
+  background:radial-gradient(circle at top right,#1e40af,#0f172a 70%);
+  color:var(--ink);
+  font:14px/1.6 'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+.loginbox{
+  width:min(420px,100%);
+  background:#ffffff;
+  padding:32px 26px;
+  border-radius:24px;
+  box-shadow:0 25px 60px -15px rgba(0,0,0,.45);
+  animation:fade .25s ease;
+}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+.brand{display:flex;gap:12px;align-items:center;margin-bottom:22px}
+.logo{
+  width:46px;height:46px;border-radius:14px;flex-shrink:0;
+  background:linear-gradient(135deg,#2563eb,#3b82f6);
+  color:#ffffff;display:grid;place-items:center;
+  font-size:22px;font-weight:800;
+  box-shadow:0 8px 16px -4px rgba(37,99,235,.4);
+}
+h1{font-size:24px;font-weight:800;margin:0 0 4px;letter-spacing:-.02em}
+.muted{color:var(--muted)}
+
+.field{margin:14px 0}
+.field label{display:block;font-size:12.5px;font-weight:700;color:#334155;margin-bottom:6px}
+.pass-wrap{position:relative}
+.field input{
+  width:100%;
+  border:1px solid var(--line);
+  border-radius:11px;
+  padding:12px 14px;
+  background:#ffffff;
+  font:inherit;
+  outline:0;
+  transition:all .15s;
+}
+.field input:focus{
+  border-color:var(--blue);
+  box-shadow:0 0 0 3px rgba(37,99,235,.14);
+}
+.toggle-pass{
+  position:absolute;right:10px;top:50%;transform:translateY(-50%);
+  background:transparent;border:0;color:var(--muted);
+  font-size:12px;font-weight:600;padding:6px 8px;cursor:pointer;
+}
+.toggle-pass:hover{color:var(--blue)}
+
+.btn-submit{
+  width:100%;
+  margin-top:10px;
+  padding:13px 16px;
+  border:0;
+  border-radius:11px;
+  background:var(--blue);
+  color:#ffffff;
+  font:inherit;
+  font-weight:700;
+  cursor:pointer;
+  transition:all .18s ease;
+}
+.btn-submit:hover{background:var(--blue-hover);transform:translateY(-1px)}
+.btn-submit:active{transform:translateY(0)}
+.btn-secondary{
+  width:100%;
+  margin-top:14px;
+  padding:11px 16px;
+  border:1px solid var(--line);
+  border-radius:11px;
+  background:#f8fafc;
+  color:#334155;
+  font:inherit;
+  font-weight:600;
+  cursor:pointer;
+}
+.btn-secondary:hover{background:#f1f5f9}
+
+.alert{
+  padding:11px 14px;
+  border-radius:11px;
+  font-size:13px;
+  font-weight:600;
+  margin-bottom:14px;
+  display:none;
+}
+.alert.error{display:block;background:var(--red-bg);color:var(--red);border:1px solid #fecaca}
+.alert.success{display:block;background:var(--green-bg);color:var(--green);border:1px solid #a7f3d0}
+
+.hint{
+  background:#f8fafc;
+  border:1px solid var(--line);
+  padding:13px 15px;
+  border-radius:12px;
+  margin-top:20px;
+  font-size:12.5px;
+}
+.profile-card{
+  background:#f8fafc;
+  border:1px solid var(--line);
+  border-radius:14px;
+  padding:16px;
+  margin-top:14px;
+}
+.badge{
+  display:inline-block;
+  background:#eff6ff;
+  color:var(--blue);
+  font-size:11.5px;
+  font-weight:700;
+  padding:3px 10px;
+  border-radius:99px;
+  margin-top:4px;
+}
+.hidden{display:none!important}
+
+@media(max-width:600px){
+  .loginbox{padding:26px 20px;border-radius:20px}
+  .field input{font-size:16px} /* Cegah auto-zoom di HP */
+}
+</style>
+</head>
+<body>
+
+<div class="loginbox">
+  <div class="brand">
+    <div class="logo">♡</div>
+    <div>
+      <b style="font-size:16px;letter-spacing:.02em">BK DIGITAL</b>
+      <div class="muted" style="font-size:12.5px">Layanan Bimbingan Konseling</div>
+    </div>
+  </div>
+
+  <!-- TAMPILAN FORM LOGIN -->
+  <div id="loginView">
+    <h1>Selamat datang</h1>
+    <p class="muted" style="margin:0 0 18px">Silakan masuk menggunakan akun BK Digital Anda.</p>
+
+    <div id="alertBox" class="alert"></div>
+
+    <form id="loginForm">
+      <div class="field">
+        <label for="username">Username</label>
+        <input id="username" type="text" required placeholder="Masukkan username" autocomplete="username">
+      </div>
+      <div class="field">
+        <label for="password">Password</label>
+        <div class="pass-wrap">
+          <input id="password" type="password" required placeholder="Masukkan password" autocomplete="current-password" style="padding-right:64px">
+          <button type="button" class="toggle-pass" id="togglePass">Lihat</button>
+        </div>
+      </div>
+      <button type="submit" class="btn-submit">Masuk</button>
+    </form>
+
+    <div class="hint">
+      <b>Akun Demo:</b><br>
+      • Guru BK: <b>guru</b> / <b>guru123</b><br>
+      • Siswa: <b>siswa</b> / <b>siswa123</b>
+    </div>
+  </div>
+
+  <!-- TAMPILAN SETELAH BERHASIL LOGIN -->
+  <div id="loggedInView" class="hidden">
+    <div class="alert success">✓ Login berhasil!</div>
+    <h1>Halo, <span id="userName">Pengguna</span></h1>
+    <p class="muted" style="margin:0">Anda telah berhasil masuk ke sistem BK Digital.</p>
+
+    <div class="profile-card">
+      <div style="font-size:12px;color:var(--muted);font-weight:600">STATUS AKUN</div>
+      <div style="font-weight:700;font-size:15px;margin-top:2px" id="userFull">-</div>
+      <span class="badge" id="userRole">-</span>
+    </div>
+
+    <button type="button" class="btn-secondary" id="logoutBtn">Keluar (Logout)</button>
+  </div>
+</div>
+
+<script>
+const USERS = [
+  { username: 'guru', password: 'guru123', name: 'Ibu Ratna, S.Pd.', role: 'Guru BK' },
+  { username: 'siswa', password: 'siswa123', name: 'Alya Putri', role: 'Siswa' }
+];
+
+const loginForm = document.getElementById('loginForm');
+const alertBox = document.getElementById('alertBox');
+const loginView = document.getElementById('loginView');
+const loggedInView = document.getElementById('loggedInView');
+const passInput = document.getElementById('password');
+const togglePassBtn = document.getElementById('togglePass');
+
+togglePassBtn.addEventListener('click', () => {
+  const isHidden = passInput.type === 'password';
+  passInput.type = isHidden ? 'text' : 'password';
+  togglePassBtn.textContent = isHidden ? 'Tutup' : 'Lihat';
+});
+
+loginForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  const u = document.getElementById('username').value.trim();
+  const p = passInput.value;
+
+  const found = USERS.find(x => x.username === u && x.password === p);
+  if (!found) {
+    alertBox.className = 'alert error';
+    alertBox.textContent = 'Username atau password salah. Silakan coba lagi.';
+    return;
+  }
+
+  alertBox.className = 'alert';
+  document.getElementById('userName').textContent = found.name.split(',')[0];
+  document.getElementById('userFull').textContent = found.name;
+  document.getElementById('userRole').textContent = found.role;
+
+  loginView.classList.add('hidden');
+  loggedInView.classList.remove('hidden');
+});
+
+document.getElementById('logoutBtn').addEventListener('click', () => {
+  loginForm.reset();
+  passInput.type = 'password';
+  togglePassBtn.textContent = 'Lihat';
+  loggedInView.classList.add('hidden');
+  loginView.classList.remove('hidden');
+});
+</script>
+</body>
+</html>
